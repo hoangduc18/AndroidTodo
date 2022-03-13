@@ -2,6 +2,8 @@ package com.example.todo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView toolbarTitle;
     Button btnAdd;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbarTitle);
         btnAdd = findViewById(R.id.btnAdd);
+        recyclerView = findViewById(R.id.recycler);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         toolbarTitle.setText("Todo List");
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
 

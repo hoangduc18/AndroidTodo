@@ -18,6 +18,9 @@ public class TaskModel
     @ColumnInfo(name = "due_date")
     private String dueDate;
 
+    public TaskModel() {
+    }
+
     public TaskModel(String taskName, String note, boolean done, boolean favorite, String reminder, String dueDate) {
         this.taskName = taskName;
         this.note = note;

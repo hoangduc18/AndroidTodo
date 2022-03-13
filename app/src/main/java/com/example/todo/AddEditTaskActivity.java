@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.todo.utils.CustomDialogUtil;
+
 public class AddEditTaskActivity extends AppCompatActivity {
 
     TextView toolbarTitle;
@@ -34,6 +36,17 @@ public class AddEditTaskActivity extends AppCompatActivity {
         favorite = findViewById(R.id.favoriteCheckBox);
         btnSave = findViewById(R.id.btnSave);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        toolbarTitle.setText("Add New Task");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         btnSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -41,6 +54,20 @@ public class AddEditTaskActivity extends AppCompatActivity {
                 saveTask();
             }
         });
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseDate();
+            }
+        });
+
+
+
+    }
+
+    private void chooseDate() {
+        CustomDialogUtil.showDatePickerDialog(this);
     }
 
     private void saveTask() {

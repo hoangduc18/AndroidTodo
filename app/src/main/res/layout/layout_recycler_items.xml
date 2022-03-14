@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/taskName"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@+id/editBtn">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,20 +33,37 @@
             android:text="Time"
             android:id="@+id/time"
             android:layout_marginLeft="10dp"/>
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/done"
-            android:layout_marginLeft="100dp"/>
-    </LinearLayout>
+            android:layout_marginLeft="100dp"/>-->
 
+
+    </LinearLayout>
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@android:drawable/ic_menu_delete"
+        android:id="@+id/deleteBtn"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/deleteBtn"
+        android:layout_centerVertical="true"
+        android:src="@android:drawable/ic_menu_edit"
+        android:layout_marginRight="10dp"
+        android:id="@+id/editBtn"/>
+
+    <!--<ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_three_dots"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:id="@+id/more"/>
+        android:id="@+id/more"/>-->
 
 </RelativeLayout>
 

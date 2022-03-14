@@ -19,10 +19,16 @@ import java.util.List;
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.TodoListViewHolder> {
     List<TaskModel> listTask;
     Context context;
+    private  IClickItem iClickItem;
 
-    public TodoListAdapter(List<TaskModel> listTask, Context context) {
-        this.listTask = listTask;
-        this.context = context;
+    public interface IClickItem{
+        void updateTask(TaskModel taskModel);
+
+        void deleteTask(TaskModel taskModel);
+    }
+
+    public TodoListAdapter(IClickItem iClickItem) {
+        this.iClickItem = iClickItem;
     }
 
     public TodoListAdapter() {
@@ -42,19 +48,30 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.TodoLi
 
     @Override
     public void onBindViewHolder(@NonNull TodoListViewHolder holder, int position) {
+        TaskModel taskModel = listTask.get(position);
         holder.taskName.setText(listTask.get(position).getTaskName());
         holder.reminderTime.setText(listTask.get(position).getReminder());
         if (listTask.get(position).isDone()){
             holder.taskName.setText(listTask.get(position).getTaskName() + " (Done)");
             holder.taskBackground.setBackgroundResource(R.color.gray);
+        }else{
+            holder.taskBackground.setBackgroundResource(0);
         }
-
-        holder.more.setOnClickListener(new View.OnClickListener() {
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                iClickItem.updateTask(taskModel);
 
             }
         });
+
+        holder.deletebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickItem.deleteTask(taskModel);
+            }
+        });
+
     }
 
     @Override
@@ -68,14 +85,17 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.TodoLi
     public class TodoListViewHolder extends RecyclerView.ViewHolder{
         private TextView taskName ;
         private TextView reminderTime;
-        private ImageView more;
+        private ImageView deletebtn;
+        private ImageView editBtn;
         private RelativeLayout taskBackground;
 
         public TodoListViewHolder(@NonNull View itemView) {
             super(itemView);
             taskName = itemView.findViewById(R.id.taskName);
             reminderTime = itemView.findViewById(R.id.time);
-            more = itemView.findViewById(R.id.more);
+            deletebtn = itemView.findViewById(R.id.deleteBtn);
+            editBtn = itemView.findViewById(R.id.editBtn);
+            deletebtn = itemView.findViewById(R.id.deleteBtn);
             taskBackground = itemView.findViewById(R.id.background);
         }
     }

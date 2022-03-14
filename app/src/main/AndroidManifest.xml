@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Todo">
         <activity
-            android:name=".AddEditTaskActivity"
+            android:name=".EditTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddTaskActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

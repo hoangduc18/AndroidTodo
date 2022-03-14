@@ -3,23 +3,20 @@ package com.example.todo.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 
-import com.example.todo.ActionUpdate;
-import com.example.todo.AddEditTaskActivity;
+import com.example.todo.IActionUpdateDateTime;
 import com.example.todo.R;
 
 public class CustomDialogUtil {
     public static String selectedDate = "";
     public static String selectedTime = "";
-    public static void showDatePickerDialog(Context context, ActionUpdate callback){
+    public static void showDatePickerDialog(Context context, IActionUpdateDateTime callback){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_date_picker_dialog, null);
         CalendarView datePicker = dialogView.findViewById(R.id.datePicker);
@@ -49,7 +46,7 @@ public class CustomDialogUtil {
         alertDialog.show();
     }
 
-    public static void showTimePickerDialog(Context context, ActionUpdate callback){
+    public static void showTimePickerDialog(Context context, IActionUpdateDateTime callback){
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         View timeDialog = LayoutInflater.from(context).inflate(R.layout.layout_time_picker_dialog, null);
         TimePicker timePicker = timeDialog.findViewById(R.id.timePicker);

@@ -1,6 +1,6 @@
 package com.example.todo;
 
-public interface ActionUpdate {
+public interface IActionUpdateDateTime {
 
     void updatedDate(String newDate);
 

@@ -8,7 +8,8 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp">
+    android:padding="15dp"
+    android:id="@+id/background">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,6 +32,11 @@
             android:text="Time"
             android:id="@+id/time"
             android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/done"
+            android:layout_marginLeft="100dp"/>
     </LinearLayout>
 
     <ImageView

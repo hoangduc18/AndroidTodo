@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,14 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.TodoLi
         this.context = context;
     }
 
+    public TodoListAdapter() {
+    }
+
+    public void setData(List<TaskModel> listTask){
+        this.listTask = listTask;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public TodoListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,6 +44,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.TodoLi
     public void onBindViewHolder(@NonNull TodoListViewHolder holder, int position) {
         holder.taskName.setText(listTask.get(position).getTaskName());
         holder.reminderTime.setText(listTask.get(position).getReminder());
+        if (listTask.get(position).isDone()){
+            holder.taskName.setText(listTask.get(position).getTaskName() + " (Done)");
+            holder.taskBackground.setBackgroundResource(R.color.gray);
+        }
+
         holder.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,12 +69,14 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.TodoLi
         private TextView taskName ;
         private TextView reminderTime;
         private ImageView more;
+        private RelativeLayout taskBackground;
 
         public TodoListViewHolder(@NonNull View itemView) {
             super(itemView);
             taskName = itemView.findViewById(R.id.taskName);
             reminderTime = itemView.findViewById(R.id.time);
             more = itemView.findViewById(R.id.more);
+            taskBackground = itemView.findViewById(R.id.background);
         }
     }
 }

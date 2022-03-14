@@ -13,4 +13,7 @@ public interface TaskDAO {
 
     @Query("SELECT * FROM todos WHERE due_date == :date")
     public List<TaskModel> getTasksByDate(String date);
+
+    @Query("SELECT * FROM todos")
+    List<TaskModel> getAllTask();
 }

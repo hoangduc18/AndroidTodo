@@ -12,12 +12,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.todo.adapter.TodoListAdapter;
+import com.example.todo.database.AppDatabase;
+import com.example.todo.database.TaskModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TextView toolbarTitle;
     Button btnAdd;
     RecyclerView recyclerView;
+    private TodoListAdapter adapter;
+    private List<TaskModel> listTask;
+    private AppDatabase db;
+    TextView noTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +37,18 @@ public class MainActivity extends AppCompatActivity {
         toolbarTitle = findViewById(R.id.toolbarTitle);
         btnAdd = findViewById(R.id.btnAdd);
         recyclerView = findViewById(R.id.recycler);
+        /*noTask = findViewById(R.id.noTask);
+        noTask.setVisibility(View.GONE);*/
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         toolbarTitle.setText("Todo List");
+
+        db = AppDatabase.getDatabase(this);
+        listTask = new ArrayList<>();
+        listTask.clear();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new TodoListAdapter(listTask,this);
+        recyclerView.setAdapter(adapter);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
 

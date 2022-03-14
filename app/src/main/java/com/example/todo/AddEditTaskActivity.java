@@ -137,6 +137,6 @@ public class AddEditTaskActivity extends AppCompatActivity implements ActionUpda
     public void updatedTime(String newTime) {
         reminderTime.setText(newTime);
     }
-    
+
 }
 

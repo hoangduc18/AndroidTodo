@@ -1,15 +1,13 @@
 package com.example.todo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.todo.database.AppDatabase;
@@ -47,36 +45,13 @@ public class AddTaskActivity extends AppCompatActivity implements IActionUpdateD
         getSupportActionBar().setTitle("");
         toolbarTitle.setText("Add New Task");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(view -> saveTask());
 
-            @Override
-            public void onClick(View view) {
-                saveTask();
-            }
-        });
+        date.setOnClickListener(view -> chooseDate());
 
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseDate();
-            }
-        });
-
-        reminderTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseReminderTime();
-            }
-        });
-
-
+        reminderTime.setOnClickListener(view -> chooseReminderTime());
     }
 
     private void chooseReminderTime() {
@@ -97,22 +72,9 @@ public class AddTaskActivity extends AppCompatActivity implements IActionUpdateD
             taskModel.setTaskName(title.getText().toString().trim());
             taskModel.setReminder(reminderTime.getText().toString());
             taskModel.setDueDate(date.getText().toString());
-            if(note.getText().toString() != null || note.getText().toString() != ""){
-                taskModel.setNote(note.getText().toString().trim());
-            }else{
-                taskModel.setNote("");
-            }
-
-            if (done.isChecked()) {
-                taskModel.setDone(true);
-            } else {
-                taskModel.setDone(false);
-            }
-            if (favorite.isChecked()) {
-                taskModel.setFavorite(true);
-            } else {
-                taskModel.setFavorite(false);
-            }
+            taskModel.setNote(note.getText().toString().trim());
+            taskModel.setDone(done.isChecked());
+            taskModel.setFavorite(favorite.isChecked());
             db.taskDAO().insertTask(taskModel);
             title.setText("");
             reminderTime.setText("");
@@ -133,6 +95,5 @@ public class AddTaskActivity extends AppCompatActivity implements IActionUpdateD
     public void updatedTime(String newTime) {
         reminderTime.setText(newTime);
     }
-
 }
 

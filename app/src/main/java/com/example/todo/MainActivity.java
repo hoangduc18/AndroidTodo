@@ -1,15 +1,6 @@
 package com.example.todo;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.adapter.TodoListAdapter;
 import com.example.todo.database.AppDatabase;
@@ -40,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements IActionUpdateDate
     TextView noTask;
     TextView todayTitle;
     TextView taskCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,29 +76,19 @@ public class MainActivity extends AppCompatActivity implements IActionUpdateDate
         recyclerView.setAdapter(adapter);
 
 
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                clickAddTask();
-            }
-        });
+        btnAdd.setOnClickListener(view -> clickAddTask());
 
     }
 
     private void clickItemToDelete(TaskModel taskModel) {
         new AlertDialog.Builder(this)
                 .setTitle("Warning")
-                .setMessage("Are you sure to delete "+taskModel.getTaskName().toString())
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        db.taskDAO().deleteTask(taskModel);
-                        Toast.makeText(MainActivity.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                        loadData();
-                        dialogInterface.dismiss();
-                    }
+                .setMessage("Are you sure to delete " + taskModel.getTaskName())
+                .setPositiveButton("OK", (dialogInterface, i) -> {
+                    db.taskDAO().deleteTask(taskModel);
+                    Toast.makeText(MainActivity.this, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    loadData();
+                    dialogInterface.dismiss();
                 })
                 .setNegativeButton("CANCEL", null)
                 .show();
@@ -122,15 +112,15 @@ public class MainActivity extends AppCompatActivity implements IActionUpdateDate
         startActivity(new Intent(this, AddTaskActivity.class));
     }
 
-    private void loadDataByDate(String date){
+    private void loadDataByDate(String date) {
         listTask.clear();
         listTask = db.taskDAO().getTasksByDate(date);
-        if (listTask.size() > 0){
+        if (listTask.size() > 0) {
             noTask.setVisibility(View.GONE);
             taskCount.setVisibility(View.VISIBLE);
             taskCount.setText(listTask.size() + " Task(s)");
             adapter.setData(listTask);
-        }else {
+        } else {
             adapter.setData(listTask);
             taskCount.setVisibility(View.GONE);
             noTask.setVisibility(View.VISIBLE);
@@ -138,17 +128,17 @@ public class MainActivity extends AppCompatActivity implements IActionUpdateDate
         }
     }
 
-    private void loadData(){
+    private void loadData() {
         listTask.clear();
         listTask = new ArrayList<>();
         listTask = db.taskDAO().getAllTask();
-        if (listTask.size() > 0){
+        if (listTask.size() > 0) {
             todayTitle.setText("All");
             taskCount.setVisibility(View.VISIBLE);
             taskCount.setText(listTask.size() + " Task(s)");
             noTask.setVisibility(View.GONE);
             adapter.setData(listTask);
-        }else {
+        } else {
             adapter.setData(listTask);
             taskCount.setVisibility(View.GONE);
             noTask.setVisibility(View.VISIBLE);
@@ -170,9 +160,9 @@ public class MainActivity extends AppCompatActivity implements IActionUpdateDate
 
     @Override
     public void updatedDate(String newDate) {
-        if (newDate.equalsIgnoreCase(DateConverter.getCurrentDate(this))){
+        if (newDate.equalsIgnoreCase(DateConverter.getCurrentDate(this))) {
             todayTitle.setText("Today");
-        }else{
+        } else {
             todayTitle.setText(newDate);
         }
         loadDataByDate(newDate);
@@ -181,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements IActionUpdateDate
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             loadData();
         }
     }

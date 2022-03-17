@@ -1,16 +1,15 @@
 package com.example.todo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.todo.database.AppDatabase;
 import com.example.todo.database.TaskModel;
@@ -30,6 +29,7 @@ public class EditTaskActivity extends AppCompatActivity implements IActionUpdate
     private AppDatabase db;
 
     private TaskModel taskModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,53 +49,24 @@ public class EditTaskActivity extends AppCompatActivity implements IActionUpdate
         getSupportActionBar().setTitle("");
         toolbarTitle.setText("Edit Task");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
-        taskModel = (TaskModel)getIntent().getExtras().get("task_object");
-        if (taskModel != null){
+        taskModel = (TaskModel) getIntent().getExtras().get("task_object");
+        if (taskModel != null) {
             taskId = taskModel.getId();
             title.setText(taskModel.getTaskName());
             date.setText(taskModel.getDueDate());
             reminderTime.setText(taskModel.getReminder());
             note.setText(taskModel.getNote());
-            if(taskModel.isDone()){
-                done.setChecked(true);
-            }else{
-                done.setChecked(false);
-            }
-            if(taskModel.isFavorite()){
-                favorite.setChecked(true);
-            }else {
-                favorite.setChecked(false);
-            }
+            done.setChecked(taskModel.isDone());
+            favorite.setChecked(taskModel.isFavorite());
         }
 
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseDate();
-            }
-        });
+        date.setOnClickListener(view -> chooseDate());
 
-        reminderTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseReminderTime();
-            }
-        });
+        reminderTime.setOnClickListener(view -> chooseReminderTime());
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateTask();
-            }
-        });
-
+        btnSave.setOnClickListener(view -> updateTask());
     }
 
     private void chooseReminderTime() {
@@ -111,35 +82,20 @@ public class EditTaskActivity extends AppCompatActivity implements IActionUpdate
                 || date.getText().toString().length() <= 0
                 || title.getText().toString().length() <= 0) {
             Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        taskModel.setId(taskId);
-        taskModel.setTaskName(title.getText().toString().trim());
-        taskModel.setReminder(reminderTime.getText().toString());
-        taskModel.setDueDate(date.getText().toString());
-        if(note.getText().toString() != null || note.getText().toString() != ""){
+        } else {
+            taskModel.setId(taskId);
+            taskModel.setTaskName(title.getText().toString().trim());
+            taskModel.setReminder(reminderTime.getText().toString());
+            taskModel.setDueDate(date.getText().toString());
             taskModel.setNote(note.getText().toString().trim());
-        }else{
-            taskModel.setNote("");
+            taskModel.setDone(done.isChecked());
+            taskModel.setFavorite(favorite.isChecked());
+            db.taskDAO().updateTask(taskModel);
+            Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+            Intent intentResult = new Intent();
+            setResult(RESULT_OK, intentResult);
+            finish();
         }
-
-        if (done.isChecked()) {
-            taskModel.setDone(true);
-        } else {
-            taskModel.setDone(false);
-        }
-        if (favorite.isChecked()) {
-            taskModel.setFavorite(true);
-        } else {
-            taskModel.setFavorite(false);
-        }
-        db.taskDAO().updateTask(taskModel);
-        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-
-        Intent intentResult = new Intent();
-        setResult(RESULT_OK, intentResult);
-        finish();
     }
 
     @Override

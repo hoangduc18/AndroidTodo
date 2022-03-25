@@ -33,11 +33,6 @@
             android:text="Time"
             android:id="@+id/time"
             android:layout_marginLeft="10dp"/>
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/done"
-            android:layout_marginLeft="100dp"/>-->
 
 
     </LinearLayout>
@@ -57,13 +52,6 @@
         android:layout_marginRight="10dp"
         android:id="@+id/editBtn"/>
 
-    <!--<ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_three_dots"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/more"/>-->
 
 </RelativeLayout>
 
